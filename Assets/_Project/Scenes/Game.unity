@@ -563,6 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 895586303}
+  - component: {fileID: 895586304}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -585,6 +586,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 888793179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &895586304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895586302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f98a5a29473d844b70c4ceb2d09164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TinyIsland.Runtime::TinyIsland.Core.GameManager
+  dayConfigs:
+  - {fileID: 11400000, guid: c94599788216a3d4d98c51d6c37b1be2, type: 2}
+  - {fileID: 11400000, guid: 1292af95e59064f45a80f3f4337305e1, type: 2}
+  - {fileID: 11400000, guid: 8c209fa7415af554b9e0c30b5f896954, type: 2}
 --- !u!1 &908228516
 GameObject:
   m_ObjectHideFlags: 0
