@@ -1,9 +1,9 @@
 # TinyIsland Roadmap
 
 ## Milestone 1 — Core Prototype
-- [ ] Player movement
-- [ ] Orbit camera
-- [ ] Basic island
+- [x] Player movement
+- [x] Orbit camera
+- [x] Basic island
 - [ ] Basic tide controller
 
 ## Milestone 2 — Resource Loop
