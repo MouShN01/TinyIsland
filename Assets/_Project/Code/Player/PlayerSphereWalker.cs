@@ -13,7 +13,6 @@ namespace TinyIsland.Player
 
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 5f;
-        [SerializeField] private float turnSpeed = 12f;
         [SerializeField] private float alignSpeed = 18f;
 
         [Header("Orbit")]

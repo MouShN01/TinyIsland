@@ -13,12 +13,22 @@ MonoBehaviour:
   m_Name: Day_01
   m_EditorClassIdentifier: TinyIsland.Runtime::TinyIsland.Core.DayConfig
   dayNumber: 1
-  lowTideDuration: 60
-  nightTideDuration: 20
-  miniTideInterval: 15
+  daytimeMiniTideCount: 3
+  dayStartWaterLevel: 1.35
+  firstLowTideLevel: 0.95
+  initialEbbDuration: 4
+  lowTideDuration: 8
+  miniTideInterval: 7
   miniTideWarningDuration: 2
-  miniTideHeight: 0.5
-  nightTideMaxHeight: 3
+  miniTideRiseDuration: 2.5
+  miniTidePeakDuration: 2.5
+  miniTideFallDuration: 3
+  miniTideHeight: 0.35
+  nightTideWarningDuration: 5
+  nightTideDuration: 12
+  nightTideMaxHeight: 2.2
+  warningShakeAmplitude: 0.035
+  warningShakeFrequency: 24
   requiredTowerLevel: 1
   climbingInputCount: 2
   climbingTimingWindow: 1.2

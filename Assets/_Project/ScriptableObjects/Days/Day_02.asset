@@ -12,15 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723230bd46252fc41a8926d665382a42, type: 3}
   m_Name: Day_02
   m_EditorClassIdentifier: TinyIsland.Runtime::TinyIsland.Core.DayConfig
-  dayNumber: 1
-  lowTideDuration: 60
-  nightTideDuration: 20
-  miniTideInterval: 15
-  miniTideWarningDuration: 2
-  miniTideHeight: 0.5
-  nightTideMaxHeight: 3
-  requiredTowerLevel: 1
-  climbingInputCount: 2
-  climbingTimingWindow: 1.2
-  woodSpawnCount: 5
-  crabCount: 0
+  dayNumber: 2
+  daytimeMiniTideCount: 3
+  dayStartWaterLevel: 1.35
+  firstLowTideLevel: 0.75
+  initialEbbDuration: 3.5
+  lowTideDuration: 7
+  miniTideInterval: 6
+  miniTideWarningDuration: 1.75
+  miniTideRiseDuration: 2.25
+  miniTidePeakDuration: 2.5
+  miniTideFallDuration: 2.75
+  miniTideHeight: 0.45
+  nightTideWarningDuration: 4.5
+  nightTideDuration: 11
+  nightTideMaxHeight: 2.8
+  warningShakeAmplitude: 0.045
+  warningShakeFrequency: 26
+  requiredTowerLevel: 2
+  climbingInputCount: 3
+  climbingTimingWindow: 1
+  woodSpawnCount: 6
+  crabCount: 2
