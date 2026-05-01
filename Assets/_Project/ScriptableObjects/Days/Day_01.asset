@@ -17,8 +17,8 @@ MonoBehaviour:
   dayStartWaterLevel: 1.35
   firstLowTideLevel: 0.95
   initialEbbDuration: 4
-  lowTideDuration: 8
-  miniTideInterval: 7
+  lowTideDuration: 2
+  miniTideInterval: 2
   miniTideWarningDuration: 2
   miniTideRiseDuration: 2.5
   miniTidePeakDuration: 2.5
@@ -32,5 +32,5 @@ MonoBehaviour:
   requiredTowerLevel: 1
   climbingInputCount: 2
   climbingTimingWindow: 1.2
-  woodSpawnCount: 5
+  woodSpawnCount: 7
   crabCount: 0

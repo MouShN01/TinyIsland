@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ namespace TinyIsland.Core
                 : null;
         public GameState State => _state;
 
+        public event Action<DayConfig> DayStarted;
+
         private void Awake()
         {
             SetState(GameState.DayPreparation);
@@ -36,6 +39,9 @@ namespace TinyIsland.Core
         public void StartDay()
         {
             SetState(GameState.LowTide);
+
+            if (CurrentDayConfig != null)
+                DayStarted?.Invoke(CurrentDayConfig);
         }
 
         public void CompleteDay()
