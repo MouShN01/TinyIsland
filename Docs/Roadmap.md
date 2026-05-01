@@ -9,8 +9,8 @@
 ## Milestone 2 — Resource Loop
 - [x] Wood pickups
 - [x] Wood spawner
-- [ ] Tower levels
-- [ ] Build interaction
+- [x] Tower levels
+- [x] Build interaction
 
 ## Milestone 3 — Survival Loop
 - [x] Night tide
