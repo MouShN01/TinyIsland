@@ -4,23 +4,23 @@
 - [x] Player movement
 - [x] Orbit camera
 - [x] Basic island
-- [ ] Basic tide controller
+- [x] Basic tide controller
 
 ## Milestone 2 — Resource Loop
-- [ ] Wood pickups
-- [ ] Wood spawner
+- [x] Wood pickups
+- [x] Wood spawner
 - [ ] Tower levels
 - [ ] Build interaction
 
 ## Milestone 3 — Survival Loop
-- [ ] Night tide
-- [ ] Survival check
-- [ ] Day progression
-- [ ] Win/lose states
+- [x] Night tide
+- [x] Survival check
+- [x] Day progression
+- [x] Win/lose states
 
 ## Milestone 4 — Pressure Systems
-- [ ] Mini tides
-- [ ] Shoreline warning
+- [x] Mini tides
+- [x] Shoreline warning
 - [ ] Crabs
 - [ ] Stick push
 

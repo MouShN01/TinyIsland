@@ -32,5 +32,5 @@ MonoBehaviour:
   requiredTowerLevel: 2
   climbingInputCount: 3
   climbingTimingWindow: 1
-  woodSpawnCount: 6
+  woodSpawnCount: 8
   crabCount: 2
