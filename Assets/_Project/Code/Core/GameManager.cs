@@ -21,6 +21,7 @@ namespace TinyIsland.Core
             dayConfigs != null && _currentDayIndex >= 0 && _currentDayIndex < dayConfigs.Length
                 ? dayConfigs[_currentDayIndex]
                 : null;
+        public int CurrentDayIndex => _currentDayIndex;
         public GameState State => _state;
 
         public event Action<DayConfig> DayStarted;

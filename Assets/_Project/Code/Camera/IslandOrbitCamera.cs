@@ -25,9 +25,31 @@ namespace TinyIsland.Camera
         [SerializeField] private float rotationSmoothSpeed = 10f;
 
         private Vector3 _positionVelocity;
+        private bool _hasOverride;
+        private Vector3 _overridePosition;
+        private Quaternion _overrideRotation;
+
+        public void SetOverridePose(Vector3 position, Quaternion rotation)
+        {
+            _hasOverride = true;
+            _overridePosition = position;
+            _overrideRotation = rotation;
+        }
+
+        public void ClearOverridePose()
+        {
+            _hasOverride = false;
+            _positionVelocity = Vector3.zero;
+        }
 
         private void LateUpdate()
         {
+            if (_hasOverride)
+            {
+                transform.SetPositionAndRotation(_overridePosition, _overrideRotation);
+                return;
+            }
+
             if (target == null || islandCenter == null)
                 return;
 
