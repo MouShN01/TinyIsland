@@ -21,6 +21,7 @@ namespace TinyIsland.Tower
         public int CurrentWoodCost => GetWoodCost(_builtPartCount);
         public bool HasBuiltParts => _builtPartCount > 0;
         public bool IsFullyBuilt => _partsByLevel != null && _builtPartCount >= _partsByLevel.Length * partsPerLevel;
+        public bool CanBuildNextPartToday => _partsByLevel != null && !IsFullyBuilt && _builtPartCount < GetAllowedPartCount();
         public bool CanClimbForCurrentDay => BuiltLevelCount >= GetRequiredLevelForCurrentDay();
 
         private void Awake()
@@ -196,5 +197,6 @@ namespace TinyIsland.Tower
                 }
             }
         }
+
     }
 }
