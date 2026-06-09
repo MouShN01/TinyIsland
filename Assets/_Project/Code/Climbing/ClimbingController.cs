@@ -36,6 +36,7 @@ namespace TinyIsland.Climbing
         [Header("Interaction")]
         [SerializeField] private float mountRadius = 1.8f;
         [SerializeField] private float climbDistanceFromTower = 0.85f;
+        [SerializeField] private float climbBaseHeightOffset = 0.35f;
         [SerializeField] private float seatedDistanceFromTower = 0f;
         [SerializeField] private float seatedHeightOffset = 0.25f;
 
@@ -376,7 +377,10 @@ namespace TinyIsland.Climbing
             if (_currentTower == null)
                 return;
 
-            float height = Mathf.Clamp(stepIndex, 0, _targetStepCount) * _stepHeight;
+            float clampedStepIndex = Mathf.Clamp(stepIndex, 0, _targetStepCount);
+            float baseOffsetProgress = _targetStepCount > 0 ? clampedStepIndex / _targetStepCount : 1f;
+            float baseOffset = Mathf.Lerp(climbBaseHeightOffset, 0f, baseOffsetProgress);
+            float height = baseOffset + clampedStepIndex * _stepHeight;
 
             if (_mode == ClimbMode.WaitingOnTop)
                 height += seatedHeightOffset;

@@ -3162,6 +3162,7 @@ MonoBehaviour:
   orbitCamera: {fileID: 749809327}
   mountRadius: 1.8
   climbDistanceFromTower: 0.85
+  climbBaseHeightOffset: 0.35
   seatedDistanceFromTower: 0
   seatedHeightOffset: 0.25
   crabPushRadius: 1.25
