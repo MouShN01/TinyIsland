@@ -4,6 +4,7 @@ using TinyIsland.Hazards;
 using TinyIsland.Input;
 using TinyIsland.Player;
 using TinyIsland.Tower;
+using TinyIsland.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -58,6 +59,10 @@ namespace TinyIsland.Climbing
         [SerializeField] private float closeCameraHeight = 0.75f;
         [SerializeField] private float closeCameraSideOffset = 0.45f;
 
+        [Header("UI")]
+        [SerializeField] private RhythmClimbHud rhythmHud;
+        [SerializeField] private bool autoCreateRhythmHud = true;
+
         [Header("Debug Prompt")]
         [SerializeField] private bool drawDebugPrompt = true;
         [SerializeField] private Vector2 promptWindowSize = new Vector2(360f, 150f);
@@ -105,6 +110,8 @@ namespace TinyIsland.Climbing
             _pickupInteractor = GetComponent<PlayerPickupInteractor>();
             _buildInteractor = GetComponent<PlayerTowerBuildInteractor>();
             _crabPushHits = new Collider[Mathf.Max(1, maxCrabPushHits)];
+
+            ResolveRhythmHud();
         }
 
         private void OnEnable()
@@ -138,6 +145,7 @@ namespace TinyIsland.Climbing
 
                 case ClimbMode.WaitingOnTop:
                     ApplyPoseForStep(_targetStepCount);
+                    UpdateRhythmHud();
 
                     if (CanDescend())
                         BeginDescent();
@@ -147,7 +155,7 @@ namespace TinyIsland.Climbing
 
         private void OnGUI()
         {
-            if (!drawDebugPrompt || _mode == ClimbMode.None)
+            if (rhythmHud != null || !drawDebugPrompt || _mode == ClimbMode.None)
                 return;
 
             float width = Mathf.Max(260f, promptWindowSize.x);
@@ -227,6 +235,7 @@ namespace TinyIsland.Climbing
             _mode = ClimbMode.ClimbingUp;
             StartNextPrompt();
             ApplyPoseForStep(_stepIndex);
+            UpdateRhythmHud();
         }
 
         private void BeginDescent()
@@ -241,6 +250,7 @@ namespace TinyIsland.Climbing
             _stepIndex = _targetStepCount;
             StartNextPrompt();
             ApplyPoseForStep(_stepIndex);
+            UpdateRhythmHud();
         }
 
         private void UpdateRhythmClimb()
@@ -252,6 +262,7 @@ namespace TinyIsland.Climbing
             }
 
             UpdateCloseCamera();
+            UpdateRhythmHud();
 
             if (_gapTimer > 0f)
             {
@@ -408,9 +419,56 @@ namespace TinyIsland.Climbing
             _currentTower = null;
             transform.SetPositionAndRotation(_groundExitPosition, _groundExitRotation);
             RestoreGroundControls();
+            UpdateRhythmHud();
 
             if (orbitCamera != null)
                 orbitCamera.ClearOverridePose();
+        }
+
+        private void ResolveRhythmHud()
+        {
+            if (rhythmHud == null)
+                rhythmHud = FindAnyObjectByType<RhythmClimbHud>(FindObjectsInactive.Include);
+
+            if (rhythmHud == null && autoCreateRhythmHud)
+                rhythmHud = RhythmClimbHud.CreateDefault();
+
+            if (rhythmHud != null)
+                rhythmHud.Hide();
+        }
+
+        private void UpdateRhythmHud()
+        {
+            if (rhythmHud == null)
+                return;
+
+            if (_mode == ClimbMode.None)
+            {
+                rhythmHud.Hide();
+                return;
+            }
+
+            if (_mode == ClimbMode.WaitingOnTop)
+            {
+                rhythmHud.ShowWaiting(CanDescend() ? "DESCENDING" : "WAIT FOR LOW TIDE");
+                return;
+            }
+
+            float duration = Mathf.Max(0.01f, promptDuration);
+            float progress = _gapTimer > 0f ? 0f : Mathf.Clamp01(_promptTimer / duration);
+            float hitStart = Mathf.Clamp01(hitWindowStart / duration);
+            float hitEnd = Mathf.Clamp01((hitWindowStart + hitWindowDuration) / duration);
+            string actionLabel = _mode == ClimbMode.ClimbingDown ? "DESCEND" : "CLIMB";
+
+            rhythmHud.ShowClimbPrompt(
+                actionLabel,
+                GetPromptText(),
+                progress,
+                hitStart,
+                hitEnd,
+                _stepIndex,
+                _targetStepCount
+            );
         }
 
         private void DisableGroundControls()
