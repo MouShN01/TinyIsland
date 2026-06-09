@@ -21,14 +21,18 @@
 ## Milestone 4 — Pressure Systems
 - [x] Mini tides
 - [x] Shoreline warning
-- [ ] Crabs
-- [ ] Stick push
+- [x] Crabs
+- [x] Stick push
+
+Implemented crabs as day-based hazards: they spawn from day configs, wander on the island surface, chase the player inside a limited detection area, and can be pushed away with Space when close.
 
 ## Milestone 5 — Climbing
-- [ ] Climbing mode
-- [ ] Directional prompts
-- [ ] Timing window
-- [ ] Safe point check
+- [x] Climbing mode
+- [x] Directional prompts
+- [x] Timing window
+- [x] Safe point check
+
+Implemented as a rhythm-style climb/descent minigame: random WASD prompts, timing window, face rotation around the tower, close-up camera, waiting on top, and descent only after the next major low tide.
 
 ## Milestone 6 — Polish
 - [ ] UI

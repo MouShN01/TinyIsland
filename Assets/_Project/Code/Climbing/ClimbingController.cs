@@ -1,5 +1,6 @@
 using TinyIsland.Camera;
 using TinyIsland.Core;
+using TinyIsland.Hazards;
 using TinyIsland.Input;
 using TinyIsland.Player;
 using TinyIsland.Tower;
@@ -34,7 +35,15 @@ namespace TinyIsland.Climbing
         [Header("Interaction")]
         [SerializeField] private float mountRadius = 1.8f;
         [SerializeField] private float climbDistanceFromTower = 0.85f;
+        [SerializeField] private float seatedDistanceFromTower = 0f;
         [SerializeField] private float seatedHeightOffset = 0.25f;
+
+        [Header("Crab Push")]
+        [SerializeField] private float crabPushRadius = 1.25f;
+        [SerializeField] private float crabPushDistance = 1.8f;
+        [SerializeField] private float crabPushDuration = 0.28f;
+        [SerializeField] private LayerMask crabPushMask = ~0;
+        [SerializeField] private int maxCrabPushHits = 8;
 
         [Header("Rhythm")]
         [SerializeField] private int stepsPerBuiltLevel = 3;
@@ -57,6 +66,7 @@ namespace TinyIsland.Climbing
         private PlayerInputActions _inputActions;
         private PlayerPickupInteractor _pickupInteractor;
         private PlayerTowerBuildInteractor _buildInteractor;
+        private Collider[] _crabPushHits;
         private TowerController _currentTower;
         private Vector3 _climbAxis;
         private Vector3 _climbRadialDirection;
@@ -94,6 +104,7 @@ namespace TinyIsland.Climbing
 
             _pickupInteractor = GetComponent<PlayerPickupInteractor>();
             _buildInteractor = GetComponent<PlayerTowerBuildInteractor>();
+            _crabPushHits = new Collider[Mathf.Max(1, maxCrabPushHits)];
         }
 
         private void OnEnable()
@@ -177,6 +188,9 @@ namespace TinyIsland.Climbing
         {
             if (_mode == ClimbMode.None)
             {
+                if (TryPushNearbyCrabs())
+                    return;
+
                 TryBeginAscent();
                 return;
             }
@@ -356,11 +370,15 @@ namespace TinyIsland.Climbing
             if (_mode == ClimbMode.WaitingOnTop)
                 height += seatedHeightOffset;
 
+            float distanceFromTower = _mode == ClimbMode.WaitingOnTop
+                ? seatedDistanceFromTower
+                : climbDistanceFromTower;
+
             Vector3 basePosition = _currentTower.transform.position;
             Vector3 climbPosition =
                 basePosition +
                 _climbAxis * height +
-                _climbRadialDirection * climbDistanceFromTower;
+                _climbRadialDirection * distanceFromTower;
 
             Quaternion climbRotation = Quaternion.LookRotation(-_climbRadialDirection, _climbAxis);
             transform.SetPositionAndRotation(climbPosition, climbRotation);
@@ -431,7 +449,7 @@ namespace TinyIsland.Climbing
 
             for (int i = 0; i < towers.Length; i++)
             {
-                if (towers[i] == null || !towers[i].HasBuiltParts)
+                if (towers[i] == null || !towers[i].CanClimbForCurrentDay)
                     continue;
 
                 float distance = Vector3.SqrMagnitude(towers[i].transform.position - transform.position);
@@ -469,6 +487,37 @@ namespace TinyIsland.Climbing
         private string GetPromptText()
         {
             return _gapTimer > 0f ? string.Empty : _currentPrompt.ToString();
+        }
+
+        private bool TryPushNearbyCrabs()
+        {
+            int hitCount = Physics.OverlapSphereNonAlloc(
+                transform.position,
+                crabPushRadius,
+                _crabPushHits,
+                crabPushMask,
+                QueryTriggerInteraction.Collide
+            );
+
+            bool pushedAnyCrab = false;
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                CrabController crab = GetCrabController(_crabPushHits[i]);
+
+                if (crab == null)
+                    continue;
+
+                crab.PushAwayFrom(transform.position, crabPushDistance, crabPushDuration);
+                pushedAnyCrab = true;
+            }
+
+            return pushedAnyCrab;
+        }
+
+        private static CrabController GetCrabController(Collider hit)
+        {
+            return hit != null ? hit.GetComponentInParent<CrabController>() : null;
         }
 
         private static bool TryReadPressedKey(out ClimbKey key)

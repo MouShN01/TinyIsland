@@ -1028,6 +1028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 349134365}
   - component: {fileID: 349134366}
+  - component: {fileID: 349134367}
   m_Layer: 0
   m_Name: WoodSpawnPoints
   m_TagString: Untagged
@@ -1089,6 +1090,27 @@ MonoBehaviour:
   randomizeSpawnPoints: 1
   dayOneLastPointNumber: 4
   dayTwoLastPointNumber: 10
+--- !u!114 &349134367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349134364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4d33e0f21e44d4f9f3c35b86b4a1a9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: TinyIsland.Runtime::TinyIsland.Hazards.CrabSpawner
+  gameManager: {fileID: 895586304}
+  crabPrefab: {fileID: 4652004228802245160, guid: 464ff8037c8a549b08b87130b7cafff0, type: 3}
+  spawnPointsRoot: {fileID: 349134365}
+  spawnedParent: {fileID: 0}
+  playerTarget: {fileID: 1194995240}
+  islandCenter: {fileID: 1174115383}
+  spawnOnStart: 1
+  clearBeforeSpawn: 1
+  randomizeSpawnPoints: 1
 --- !u!1 &386246473
 GameObject:
   m_ObjectHideFlags: 0
@@ -3140,7 +3162,15 @@ MonoBehaviour:
   orbitCamera: {fileID: 749809327}
   mountRadius: 1.8
   climbDistanceFromTower: 0.85
+  seatedDistanceFromTower: 0
   seatedHeightOffset: 0.25
+  crabPushRadius: 1.25
+  crabPushDistance: 1.8
+  crabPushDuration: 0.28
+  crabPushMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  maxCrabPushHits: 8
   stepsPerBuiltLevel: 3
   promptDuration: 1.1
   hitWindowStart: 0.4

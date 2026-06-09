@@ -21,6 +21,7 @@ namespace TinyIsland.Tower
         public int CurrentWoodCost => GetWoodCost(_builtPartCount);
         public bool HasBuiltParts => _builtPartCount > 0;
         public bool IsFullyBuilt => _partsByLevel != null && _builtPartCount >= _partsByLevel.Length * partsPerLevel;
+        public bool CanClimbForCurrentDay => BuiltLevelCount >= GetRequiredLevelForCurrentDay();
 
         private void Awake()
         {
@@ -58,12 +59,15 @@ namespace TinyIsland.Tower
 
         private int GetAllowedPartCount()
         {
-            int requiredTowerLevel = gameManager != null && gameManager.CurrentDayConfig != null
-                ? gameManager.CurrentDayConfig.RequiredTowerLevel
-                : _partsByLevel.Length;
-
-            int allowedLevelCount = Mathf.Clamp(requiredTowerLevel, 0, _partsByLevel.Length);
+            int allowedLevelCount = Mathf.Clamp(GetRequiredLevelForCurrentDay(), 0, _partsByLevel.Length);
             return allowedLevelCount * partsPerLevel;
+        }
+
+        private int GetRequiredLevelForCurrentDay()
+        {
+            return gameManager != null && gameManager.CurrentDayConfig != null
+                ? gameManager.CurrentDayConfig.RequiredTowerLevel
+                : _partsByLevel != null ? _partsByLevel.Length : 0;
         }
 
         private int GetWoodCost(int partIndex)
